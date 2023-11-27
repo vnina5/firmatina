@@ -82,7 +82,7 @@ public class SelectionServiceImplementation implements SelectionService {
         }
 
         if (user == null) {
-            LOG.info("Tim ne postoji.");
+            LOG.info("Tim " + claims.get("username") + " ne postoji.");
 
             return new ErrorResponseDTO("Tim sa username-om " + claims.get("username") + " ne postoji.");
         }
@@ -96,7 +96,7 @@ public class SelectionServiceImplementation implements SelectionService {
         String assignment = lc.getAss(user);
 
         if (assignment == null) {
-            LOG.info("Nije generisan zadatak.");
+            LOG.info("Nije generisan zadatak za tim " + claims.get("username"));
 
             return new ErrorResponseDTO("Nije generisan zadatak.");
         }
@@ -134,18 +134,18 @@ public class SelectionServiceImplementation implements SelectionService {
 
         user.setResult(dto.getResult());
 
-        LOG.info("Tim je poslao rezultat: " + dto.getResult());
+        LOG.info("Tim sa username-om " + claims.get("username") + " je poslao rezultat: " + dto.getResult());
 
 
         lc.calculateTrueResult(user);
 
         if (user.getResult() != user.getTrueResult()) {
-            LOG.info("Tim nije poslao tacan rezultat.");
+            LOG.info("Tim sa username-om " + claims.get("username") + "nije poslao tacan rezultat.");
 
             return new ResultResponseDTO("Hvala Vam što ste se prijavili za AIBG i što ste uradili selekcioni zadatak! Očekujte rezultate selekcije u narednih nekoliko dana");
         }
 
-        LOG.info("Tim je poslao tacan rezultat.");
+        LOG.info("Tim sa username-om " + claims.get("username") + " je poslao tacan rezultat.");
 
 
         String message = "Hvala Vam što ste se prijavili za AIBG i što ste uradili selekcioni zadatak! Očekujte rezultate selekcije u narednih nekoliko dana";
